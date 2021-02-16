@@ -101,19 +101,20 @@ void loop() {
 
   if(triggered){
   digitalWrite(LED, HIGH);
-  digitalWrite(cam_1_pin, HIGH);
-  delay(external_delay_time);
-  digitalWrite(cam_1_pin, LOW);
-  delay(internal_delay_time);
-  digitalWrite(cam_2_pin, HIGH);
-  delay(external_delay_time);
-  digitalWrite(cam_2_pin, LOW);
-  digitalWrite(cam_3_pin, HIGH);
-  digitalWrite(cam_3_pin, LOW);
-  digitalWrite(cam_4_pin, HIGH);
-  digitalWrite(cam_5_pin, LOW); 
+
+  blink(cam_1_pin,internal_delay_time,external_delay_time);
+  blink(cam_2_pin,internal_delay_time,external_delay_time);
   digitalWrite(LED, LOW);
+  
   }
   triggered=0;
   
 } 
+
+
+int blink(int pin,int int_delay,int ext_delay){
+  digitalWrite(pin, HIGH);
+  delay(int_delay);
+  digitalWrite(pin, LOW);
+  delay(ext_delay);
+}
