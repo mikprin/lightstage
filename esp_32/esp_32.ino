@@ -10,6 +10,8 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <driver/adc.h>
+
 
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
@@ -30,12 +32,13 @@ const int cam_6_pin = 14;
 const int cam_7_pin = 12;
 const int cam_8_pin = 13;
 const int focus_pin =  32;
-
+const int potPin = 34;
 int external_delay_time = 300; // Time between cameras
 int internal_delay_time = 300; // Time between cameras
 int triggered = 0;
 int swichState = 0;
 int buttonState = 0;
+int potValue = 0;
 
   void setup() {
 
@@ -77,6 +80,7 @@ int buttonState = 0;
 
 void loop() {
   swichState = digitalRead(input_swich);
+  potValue = analogRead(potPin);
   if (digitalRead(trigger_pin) == HIGH){
     triggered = 1;
   }
@@ -85,14 +89,17 @@ void loop() {
   if (swichState == HIGH) {
     triggered = 0;
     display.print("SET");
+    display.print("  ");
+    display.print(potValue);
     Serial.println("SET");
+    Serial.println(potValue);
   }
   else{
     display.print("ARM");
     Serial.println("ARM");
     if (triggered == 1){
       display.print(" TRIGGERED");
-      Serial.println(" TRIGGERED");
+      //Serial.println(" TRIGGERED");
     }
   }
   display.display();
