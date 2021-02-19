@@ -31,7 +31,7 @@ const int cam_5_pin = 27;
 const int cam_6_pin = 14;
 const int cam_7_pin = 12;
 const int cam_8_pin = 13;
-const int focus_pin =  32;
+const int focus_pin =  13;
 const int potPin = 34;
 int external_delay_time = 300; // Time between cameras
 int internal_delay_time = 300; // Time between cameras
@@ -107,13 +107,39 @@ void loop() {
 
 
   if(triggered){
+  /*
   digitalWrite(LED, HIGH);
   digitalWrite(focus_pin, HIGH);
   blink(cam_1_pin,internal_delay_time,external_delay_time);
   blink(cam_2_pin,internal_delay_time,external_delay_time);
   digitalWrite(LED, LOW);
   digitalWrite(focus_pin, LOW);
+  */
+  digitalWrite(LED, HIGH);
+  digitalWrite(focus_pin, HIGH);
+  delay(100);
+  digitalWrite(focus_pin, HIGH);
 
+  digitalWrite(cam_1_pin, HIGH);
+  digitalWrite(cam_2_pin, HIGH);
+  digitalWrite(cam_3_pin, HIGH);
+  digitalWrite(cam_4_pin, HIGH);
+  digitalWrite(cam_5_pin, HIGH);
+  digitalWrite(cam_6_pin, HIGH);
+  digitalWrite(cam_7_pin, HIGH);
+
+  delay(10)
+
+  digitalWrite(cam_1_pin, LOW);
+  digitalWrite(cam_2_pin, LOW);
+  digitalWrite(cam_3_pin, LOW);
+  digitalWrite(cam_4_pin, LOW);
+  digitalWrite(cam_5_pin, LOW);
+  digitalWrite(cam_6_pin, LOW);
+  digitalWrite(cam_7_pin, LOW);
+  
+  digitalWrite(LED, LOW);
+  digitalWrite(focus_pin, LOW);
   }
   triggered=0;
 
