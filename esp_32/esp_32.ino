@@ -2,7 +2,7 @@
  * https://circuits4you.com
  * ESP32 LED Blink Example
  * Board ESP23 DEVKIT V1
- * 
+ *
  * ON Board LED GPIO 2
  */
 
@@ -29,7 +29,7 @@ const int cam_5_pin = 27;
 const int cam_6_pin = 14;
 const int cam_7_pin = 12;
 const int cam_8_pin = 13;
-
+const int focus_pin =  32;
 
 int external_delay_time = 300; // Time between cameras
 int internal_delay_time = 300; // Time between cameras
@@ -38,7 +38,7 @@ int swichState = 0;
 int buttonState = 0;
 
   void setup() {
-    
+
   pinMode(input_swich, INPUT);
   pinMode(cam_1_pin, OUTPUT);
   pinMode(cam_2_pin, OUTPUT);
@@ -51,11 +51,11 @@ int buttonState = 0;
 
   pinMode(input_swich, INPUT);
 
-  
+
   Serial.begin(115200);
   pinMode(LED,OUTPUT);
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
-  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
@@ -69,7 +69,7 @@ int buttonState = 0;
   display.println("Ready to begin!");
   display.display();
   delay(1000);
-  
+
    // Clear the buffer
   display.clearDisplay();
 
@@ -101,15 +101,16 @@ void loop() {
 
   if(triggered){
   digitalWrite(LED, HIGH);
-
+  digitalWrite(focus_pin, HIGH);
   blink(cam_1_pin,internal_delay_time,external_delay_time);
   blink(cam_2_pin,internal_delay_time,external_delay_time);
   digitalWrite(LED, LOW);
-  
+  digitalWrite(focus_pin, LOW);
+
   }
   triggered=0;
-  
-} 
+
+}
 
 
 int blink(int pin,int int_delay,int ext_delay){
