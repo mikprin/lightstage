@@ -12,7 +12,8 @@
 #include <Adafruit_SSD1306.h>
 #include <driver/adc.h>
 
-
+#define LIGHT_STAGE_MODE 2
+#define PHOTOGRAMMERTY_MODE 1 //Define mode of operation
 #define SCREEN_WIDTH 128 // OLED display width, in pixels
 #define SCREEN_HEIGHT 32 // OLED display height, in pixels
 #define OLED_RESET     -1 // Reset pin # (or -1 if sharing Arduino reset pin)
@@ -39,7 +40,7 @@ int triggered = 0;
 int swichState = 0;
 int buttonState = 0;
 int potValue = 0;
-
+int mode_of_operation = 1;
   void setup() {
 
   pinMode(input_swich, INPUT);
@@ -87,6 +88,7 @@ void loop() {
   display.clearDisplay();
   display.setCursor(0,5);
   if (swichState == HIGH) {
+  // =========  IF STATE == SET =================
     triggered = 0;
     display.print("SET");
     display.print("  ");
@@ -95,10 +97,20 @@ void loop() {
     Serial.println(potValue);
   }
   else{
-    display.print("ARM");
+  //========  IF STATE == ARM ===================
+    display.print("ARM ");
     Serial.println("ARM");
+
+    if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+      display.print("PHGR ");
+      Serial.println("PHGR");
+    }
+    if (mode_of_operation == LIGHT_STAGE_MODE){
+      display.print("LGTSTG ");
+      Serial.println("LGTSTG");
+    }
     if (triggered == 1){
-      display.print(" TRIGGERED");
+      //display.print(" TRIGGERED");
       //Serial.println(" TRIGGERED");
     }
   }
@@ -108,41 +120,51 @@ void loop() {
 
   if(triggered){
   /*
-  digitalWrite(LED, HIGH);
-  digitalWrite(focus_pin, HIGH);
-  blink(cam_1_pin,internal_delay_time,external_delay_time);
-  blink(cam_2_pin,internal_delay_time,external_delay_time);
-  digitalWrite(LED, LOW);
-  digitalWrite(focus_pin, LOW);
+
   */
-  digitalWrite(LED, HIGH);
-  digitalWrite(focus_pin, HIGH);
-  delay(100);
-  digitalWrite(focus_pin, HIGH);
 
-  digitalWrite(cam_1_pin, HIGH);
-  digitalWrite(cam_2_pin, HIGH);
-  digitalWrite(cam_3_pin, HIGH);
-  digitalWrite(cam_4_pin, HIGH);
-  digitalWrite(cam_5_pin, HIGH);
-  digitalWrite(cam_6_pin, HIGH);
-  digitalWrite(cam_7_pin, HIGH);
+  if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+    digitalWrite(LED, HIGH);
+    digitalWrite(focus_pin, HIGH);
+    delay(500);
+    digitalWrite(focus_pin, HIGH);
 
-  delay(10)
+    digitalWrite(cam_1_pin, HIGH);
+    digitalWrite(cam_2_pin, HIGH);
+    digitalWrite(cam_3_pin, HIGH);
+    digitalWrite(cam_4_pin, HIGH);
+    digitalWrite(cam_5_pin, HIGH);
+    digitalWrite(cam_6_pin, HIGH);
+    digitalWrite(cam_7_pin, HIGH);
 
-  digitalWrite(cam_1_pin, LOW);
-  digitalWrite(cam_2_pin, LOW);
-  digitalWrite(cam_3_pin, LOW);
-  digitalWrite(cam_4_pin, LOW);
-  digitalWrite(cam_5_pin, LOW);
-  digitalWrite(cam_6_pin, LOW);
-  digitalWrite(cam_7_pin, LOW);
-  
-  digitalWrite(LED, LOW);
-  digitalWrite(focus_pin, LOW);
+    delay(10);
+
+    digitalWrite(cam_1_pin, LOW);
+    digitalWrite(cam_2_pin, LOW);
+    digitalWrite(cam_3_pin, LOW);
+    digitalWrite(cam_4_pin, LOW);
+    digitalWrite(cam_5_pin, LOW);
+    digitalWrite(cam_6_pin, LOW);
+    digitalWrite(cam_7_pin, LOW);
+
+    digitalWrite(LED, LOW);
+    digitalWrite(focus_pin, LOW);
+    }
+    triggered=0;
   }
-  triggered=0;
-
+  if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+    digitalWrite(LED, HIGH);
+    digitalWrite(focus_pin, HIGH);
+    blink(cam_1_pin,internal_delay_time,external_delay_time);
+    blink(cam_2_pin,internal_delay_time,external_delay_time);
+    blink(cam_3_pin,internal_delay_time,external_delay_time);
+    blink(cam_4_pin,internal_delay_time,external_delay_time);
+    blink(cam_5_pin,internal_delay_time,external_delay_time);
+    blink(cam_6_pin,internal_delay_time,external_delay_time);
+    blink(cam_7_pin,internal_delay_time,external_delay_time);
+    digitalWrite(LED, LOW);
+    digitalWrite(focus_pin, LOW);
+  }
 }
 
 
