@@ -89,12 +89,22 @@ void loop() {
   display.setCursor(0,5);
   if (swichState == HIGH) {
   // =========  IF STATE == SET =================
-    triggered = 0;
     display.print("SET");
     display.print("  ");
     display.print(potValue);
     Serial.println("SET");
     Serial.println(potValue);
+    if (triggered ==  1){
+      switch (mode_of_operation) {
+        case PHOTOGRAMMERTY_MODE:
+        mode_of_operation = LIGHT_STAGE_MODE;
+        break;
+        case LIGHT_STAGE_MODE:
+        mode_of_operation = PHOTOGRAMMERTY_MODE;
+        break;
+      }
+    delay(500);
+    }
   }
   else{
   //========  IF STATE == ARM ===================
@@ -123,48 +133,51 @@ void loop() {
 
   */
 
-  if (mode_of_operation == PHOTOGRAMMERTY_MODE){
-    digitalWrite(LED, HIGH);
-    digitalWrite(focus_pin, HIGH);
-    delay(500);
-    digitalWrite(focus_pin, HIGH);
+    if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+      digitalWrite(LED, HIGH);
+      digitalWrite(focus_pin, HIGH);
+      delay(500);
+      digitalWrite(focus_pin, HIGH);
 
-    digitalWrite(cam_1_pin, HIGH);
-    digitalWrite(cam_2_pin, HIGH);
-    digitalWrite(cam_3_pin, HIGH);
-    digitalWrite(cam_4_pin, HIGH);
-    digitalWrite(cam_5_pin, HIGH);
-    digitalWrite(cam_6_pin, HIGH);
-    digitalWrite(cam_7_pin, HIGH);
+      digitalWrite(cam_1_pin, HIGH);
+      digitalWrite(cam_2_pin, HIGH);
+      digitalWrite(cam_3_pin, HIGH);
+      digitalWrite(cam_4_pin, HIGH);
+      digitalWrite(cam_5_pin, HIGH);
+      digitalWrite(cam_6_pin, HIGH);
+      digitalWrite(cam_7_pin, HIGH);
 
-    delay(10);
+      delay(10);
 
-    digitalWrite(cam_1_pin, LOW);
-    digitalWrite(cam_2_pin, LOW);
-    digitalWrite(cam_3_pin, LOW);
-    digitalWrite(cam_4_pin, LOW);
-    digitalWrite(cam_5_pin, LOW);
-    digitalWrite(cam_6_pin, LOW);
-    digitalWrite(cam_7_pin, LOW);
+      digitalWrite(cam_1_pin, LOW);
+      digitalWrite(cam_2_pin, LOW);
+      digitalWrite(cam_3_pin, LOW);
+      digitalWrite(cam_4_pin, LOW);
+      digitalWrite(cam_5_pin, LOW);
+      digitalWrite(cam_6_pin, LOW);
+      digitalWrite(cam_7_pin, LOW);
 
-    digitalWrite(LED, LOW);
-    digitalWrite(focus_pin, LOW);
+      digitalWrite(LED, LOW);
+      digitalWrite(focus_pin, LOW);
+    }
+    if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+      digitalWrite(LED, HIGH);
+      digitalWrite(focus_pin, HIGH);
+      blink(cam_1_pin,internal_delay_time,external_delay_time);
+      blink(cam_2_pin,internal_delay_time,external_delay_time);
+      blink(cam_3_pin,internal_delay_time,external_delay_time);
+      blink(cam_4_pin,internal_delay_time,external_delay_time);
+      blink(cam_5_pin,internal_delay_time,external_delay_time);
+      blink(cam_6_pin,internal_delay_time,external_delay_time);
+      blink(cam_7_pin,internal_delay_time,external_delay_time);
+      digitalWrite(LED, LOW);
+      digitalWrite(focus_pin, LOW);
+
     }
     triggered=0;
+    delay(200);
   }
-  if (mode_of_operation == PHOTOGRAMMERTY_MODE){
-    digitalWrite(LED, HIGH);
-    digitalWrite(focus_pin, HIGH);
-    blink(cam_1_pin,internal_delay_time,external_delay_time);
-    blink(cam_2_pin,internal_delay_time,external_delay_time);
-    blink(cam_3_pin,internal_delay_time,external_delay_time);
-    blink(cam_4_pin,internal_delay_time,external_delay_time);
-    blink(cam_5_pin,internal_delay_time,external_delay_time);
-    blink(cam_6_pin,internal_delay_time,external_delay_time);
-    blink(cam_7_pin,internal_delay_time,external_delay_time);
-    digitalWrite(LED, LOW);
-    digitalWrite(focus_pin, LOW);
-  }
+
 }
 
 
