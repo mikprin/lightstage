@@ -34,8 +34,8 @@ const int cam_7_pin = 12;
 const int cam_8_pin = 13;
 const int focus_pin =  13;
 const int potPin = 34;
-int external_delay_time = 300; // Time between cameras
-int internal_delay_time = 300; // Time between cameras
+int external_delay_time = 30; // Time between cameras
+int internal_delay_time = 60; // Time between cameras
 int triggered = 0;
 int swichState = 0;
 int buttonState = 0;
@@ -89,11 +89,19 @@ void loop() {
   display.setCursor(0,5);
   if (swichState == HIGH) {
   // =========  IF STATE == SET =================
-    display.print("SET");
+    display.print("SET ");
     display.print("  ");
-    display.print(potValue);
+    //display.print(potValue);
     Serial.println("SET");
-    Serial.println(potValue);
+    //Serial.println(potValue);
+    if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+      display.print("PHGR ");
+      //Serial.println("PHGR");
+    }
+    if (mode_of_operation == LIGHT_STAGE_MODE){
+      display.print("LGTSTG ");
+      //Serial.println("LGTSTG");
+    }
     if (triggered ==  1){
       switch (mode_of_operation) {
         case PHOTOGRAMMERTY_MODE:
@@ -103,27 +111,30 @@ void loop() {
         mode_of_operation = PHOTOGRAMMERTY_MODE;
         break;
       }
-    delay(500);
+    triggered = 0;
+
+    delay(300);
     }
+    display.display();
   }
   else{
   //========  IF STATE == ARM ===================
     display.print("ARM ");
-    Serial.println("ARM");
+    //Serial.println("ARM");
 
     if (mode_of_operation == PHOTOGRAMMERTY_MODE){
       display.print("PHGR ");
-      Serial.println("PHGR");
+      //Serial.println("PHGR");
     }
     if (mode_of_operation == LIGHT_STAGE_MODE){
       display.print("LGTSTG ");
-      Serial.println("LGTSTG");
+      //Serial.println("LGTSTG");
     }
-    if (triggered == 1){
+    //if (triggered == 1){
       //display.print(" TRIGGERED");
       //Serial.println(" TRIGGERED");
-    }
-  }
+    //}
+
   display.display();
   delay(1);
 
@@ -160,15 +171,19 @@ void loop() {
       digitalWrite(LED, LOW);
       digitalWrite(focus_pin, LOW);
     }
-    if (mode_of_operation == PHOTOGRAMMERTY_MODE){
+    if (mode_of_operation == LIGHT_STAGE_MODE){
       digitalWrite(LED, HIGH);
       digitalWrite(focus_pin, HIGH);
+      delay(200);
+
+
       blink(cam_1_pin,internal_delay_time,external_delay_time);
       blink(cam_2_pin,internal_delay_time,external_delay_time);
       blink(cam_3_pin,internal_delay_time,external_delay_time);
       blink(cam_4_pin,internal_delay_time,external_delay_time);
       blink(cam_5_pin,internal_delay_time,external_delay_time);
       blink(cam_6_pin,internal_delay_time,external_delay_time);
+      delay(100);
       blink(cam_7_pin,internal_delay_time,external_delay_time);
       digitalWrite(LED, LOW);
       digitalWrite(focus_pin, LOW);
@@ -177,7 +192,7 @@ void loop() {
     triggered=0;
     delay(200);
   }
-
+  }
 }
 
 
