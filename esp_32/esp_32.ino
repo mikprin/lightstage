@@ -42,7 +42,7 @@ int buttonState = 0;
 int potValue = 0;
 int mode_of_operation = 1;
   void setup() {
-
+  
   pinMode(input_swich, INPUT);
   pinMode(cam_1_pin, OUTPUT);
   pinMode(cam_2_pin, OUTPUT);
@@ -82,9 +82,14 @@ int mode_of_operation = 1;
 void loop() {
   swichState = digitalRead(input_swich);
   potValue = analogRead(potPin);
-  if (digitalRead(trigger_pin) == HIGH){
+
+  // FOR ROLAND TO NOTICE
+  if (digitalRead(trigger_pin) == HIGH)  {
     triggered = 1;
   }
+  // END OF INTERESTIONG CODE
+
+
   display.clearDisplay();
   display.setCursor(0,5);
   if (swichState == HIGH) {
@@ -102,6 +107,8 @@ void loop() {
       display.print("LGTSTG ");
       //Serial.println("LGTSTG");
     }
+
+    // Switch mode of operation if button is pressed
     if (triggered ==  1){
       switch (mode_of_operation) {
         case PHOTOGRAMMERTY_MODE:
@@ -141,7 +148,7 @@ void loop() {
 
   if(triggered){
   /*
-
+    If button is presed its tiggers cameras
   */
 
     if (mode_of_operation == PHOTOGRAMMERTY_MODE){
@@ -183,7 +190,7 @@ void loop() {
       blink(cam_4_pin,internal_delay_time,external_delay_time);
       blink(cam_5_pin,internal_delay_time,external_delay_time);
       blink(cam_6_pin,internal_delay_time,external_delay_time);
-      delay(100);
+      delay(200);
       blink(cam_7_pin,internal_delay_time,external_delay_time);
       digitalWrite(LED, LOW);
       digitalWrite(focus_pin, LOW);
